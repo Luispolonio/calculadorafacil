@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://calculadorafacil.dev"),
+  other: {
+    "google-adsense-account": "ca-pub-3071749149722632",
+  },
   title: "CalculadoraFácil | Calculadoras online gratis",
   description:
     "Calculadoras gratuitas en español para porcentajes, finanzas, estudios, fechas, conversiones y cálculos cotidianos.",
