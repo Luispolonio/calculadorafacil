@@ -8,7 +8,6 @@ import {
   Clock3,
   Coins,
   GraduationCap,
-  HeartPulse,
   Languages,
   Menu,
   Percent,
@@ -152,42 +151,42 @@ const categories = [
   {
     name: "Matemáticas",
     enName: "Mathematics",
-    count: 12,
+    count: 2,
     icon: Calculator,
     tone: "sky",
   },
   {
     name: "Finanzas",
     enName: "Finance",
-    count: 10,
+    count: 2,
     icon: WalletCards,
     tone: "blue",
   },
   {
     name: "Estudios",
     enName: "Education",
-    count: 7,
+    count: 2,
     icon: GraduationCap,
     tone: "violet",
   },
   {
     name: "Fechas y tiempo",
     enName: "Dates and time",
-    count: 9,
+    count: 2,
     icon: CalendarDays,
     tone: "amber",
   },
   {
-    name: "Salud y bienestar",
-    enName: "Health and wellness",
-    count: 6,
-    icon: HeartPulse,
+    name: "Vida cotidiana",
+    enName: "Everyday life",
+    count: 1,
+    icon: Coins,
     tone: "rose",
   },
   {
     name: "Conversores",
     enName: "Converters",
-    count: 14,
+    count: 1,
     icon: Ruler,
     tone: "emerald",
   },
@@ -512,7 +511,7 @@ export default function Home() {
                 <strong>0</strong> {en ? "accounts" : "registros"}
               </span>
               <span>
-                <strong>+50</strong> {en ? "tools" : "herramientas"}
+                <strong>10</strong> {en ? "calculators" : "calculadoras"}
               </span>
             </div>
           </div>
@@ -579,8 +578,8 @@ export default function Home() {
             </h2>
             <p>
               {en
-                ? "More than 50 free, clear and always-available tools."
-                : "Más de 50 herramientas gratuitas, claras y siempre disponibles."}
+                ? "10 free calculators with formulas, examples and practical guides."
+                : "10 calculadoras gratuitas con fórmulas, ejemplos y guías prácticas."}
             </p>
           </div>
           <a href="#categorias">

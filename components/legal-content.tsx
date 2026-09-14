@@ -29,6 +29,20 @@ const pages: Record<
           "Results are informational estimates and do not replace professional financial, medical, tax, academic or legal advice.",
         ],
       },
+      {
+        heading: ["Cómo elaboramos el contenido", "How we prepare content"],
+        body: [
+          "Cada calculadora parte de una fórmula documentada y se acompaña de una explicación redactada para este sitio, ejemplos, límites y errores frecuentes. Revisamos manualmente los casos de prueba antes de publicar y señalamos las fuentes externas cuando son relevantes.",
+          "Each calculator starts from a documented formula and includes an explanation written for this site, examples, limitations, and common mistakes. We manually review test cases before publishing and identify external references when relevant.",
+        ],
+      },
+      {
+        heading: ["Responsabilidad editorial", "Editorial responsibility"],
+        body: [
+          "CalculadoraFácil mantiene y revisa sus herramientas. Si detectas un error, puedes enviarnos el cálculo, los valores utilizados y el resultado esperado mediante la página de contacto. Las correcciones se validan antes de incorporarse.",
+          "CalculadoraFácil maintains and reviews its tools. If you find an error, send us the calculation, values used, and expected result through the contact page. Corrections are validated before publication.",
+        ],
+      },
     ],
   },
   contacto: {
@@ -205,8 +219,8 @@ export default function LegalContent({ page }: { page: string }) {
         ))}
         <p className="legal-updated">
           {en
-            ? "Last updated: August 29, 2026"
-            : "Última actualización: 29 de agosto de 2026"}
+            ? "Last updated: September 13, 2026"
+            : "Última actualización: 13 de septiembre de 2026"}
         </p>
       </main>
     </div>

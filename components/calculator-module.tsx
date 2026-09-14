@@ -1,10 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
 import {
+  AlertTriangle,
   ArrowLeft,
+  BookOpen,
   Calculator,
   Check,
   Copy,
+  ExternalLink,
   Languages,
   RotateCcw,
 } from "lucide-react";
@@ -13,6 +16,7 @@ import AdvancedCalculations from "@/components/advanced-calculations";
 import Link from "next/link";
 import Image from "next/image";
 import AdSlot from "@/components/ad-slot";
+import { calculatorGuides } from "@/components/calculator-guides";
 
 type Field = {
   key: string;
@@ -362,6 +366,7 @@ const configs: Record<string, Config> = {
 
 export default function CalculatorModule({ slug }: { slug: string }) {
   const config = configs[slug],
+    guide = calculatorGuides[slug],
     { language, toggle } = useLanguage(),
     en = language === "en";
   const [values, setValues] = useState<Record<string, string>>(
@@ -548,6 +553,70 @@ export default function CalculatorModule({ slug }: { slug: string }) {
             <p>{config.example[en ? 1 : 0]}</p>
           </article>
         </section>
+        {guide && (
+          <section className="calculator-guide">
+            <div className="guide-heading">
+              <span className="kicker">
+                <BookOpen /> {en ? "Practical guide" : "Guía práctica"}
+              </span>
+              <h2>
+                {en
+                  ? `Understand ${title.toLowerCase()}`
+                  : `Entiende ${title.toLowerCase()}`}
+              </h2>
+            </div>
+            <div className="guide-overview">
+              {guide.overview.map((paragraph) => (
+                <p key={paragraph[0]}>{paragraph[en ? 1 : 0]}</p>
+              ))}
+            </div>
+            <div className="guide-columns">
+              <article>
+                <h3>{en ? "When it is useful" : "Cuándo resulta útil"}</h3>
+                <ul>
+                  {guide.uses.map((item) => (
+                    <li key={item[0]}>{item[en ? 1 : 0]}</li>
+                  ))}
+                </ul>
+              </article>
+              <article>
+                <h3>{en ? "How to read the result" : "Cómo interpretar el resultado"}</h3>
+                <p>{guide.interpretation[en ? 1 : 0]}</p>
+              </article>
+            </div>
+            <article className="guide-warning">
+              <AlertTriangle />
+              <div>
+                <h3>{en ? "Common mistakes" : "Errores frecuentes"}</h3>
+                <ul>
+                  {guide.pitfalls.map((item) => (
+                    <li key={item[0]}>{item[en ? 1 : 0]}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+            <div className="guide-faqs">
+              <h3>{en ? "Questions about this calculation" : "Preguntas sobre este cálculo"}</h3>
+              {guide.faqs.map((faq) => (
+                <article key={faq.question[0]}>
+                  <h4>{faq.question[en ? 1 : 0]}</h4>
+                  <p>{faq.answer[en ? 1 : 0]}</p>
+                </article>
+              ))}
+            </div>
+            <aside className="methodology-note">
+              <strong>{en ? "Method and review" : "Método y revisión"}</strong>
+              <p>{guide.methodology[en ? 1 : 0]}</p>
+              {guide.reference && (
+                <a href={guide.reference.url} target="_blank" rel="noreferrer">
+                  {en ? "Reference consulted" : "Referencia consultada"}: {guide.reference.label}
+                  <ExternalLink />
+                </a>
+              )}
+              <small>{en ? "Reviewed: September 13, 2026" : "Revisado: 13 de septiembre de 2026"}</small>
+            </aside>
+          </section>
+        )}
         <AdSlot placement={`${slug}-after-explanation`} format="responsive" />
         <section className="related">
           <span className="kicker">
