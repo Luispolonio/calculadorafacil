@@ -1485,6 +1485,27 @@ footer {
   line-height: 1.75;
   margin: 0;
 }
+.edge-privacy-page .kicker svg {
+  width: 16px;
+}
+.edge-privacy-page section ul {
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.edge-privacy-page section li + li {
+  margin-top: 9px;
+}
+.edge-privacy-page section strong {
+  color: #334155;
+}
+.edge-privacy-page section a {
+  color: var(--blue);
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .legal-updated {
   margin-top: 35px;
   font-size: 12px;

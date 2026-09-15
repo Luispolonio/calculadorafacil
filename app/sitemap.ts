@@ -33,6 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
+    {
+      url: `${baseUrl}/privacidad/edgexi`,
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
     ...calculatorRoutes.map((route) => ({
       url: `${baseUrl}/${route}`,
       changeFrequency: "monthly" as const,
