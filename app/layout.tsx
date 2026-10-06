@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { LanguageProvider } from "@/components/language-provider";
+import Script from "next/script";
+
+
 const display = localFont({
   src: "../public/fonts/fraunces.ttf",
   weight: "100 900",
@@ -55,6 +58,12 @@ export default function RootLayout({
           Saltar al contenido
         </a>
         <LanguageProvider>{children}</LanguageProvider>
+        <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3071749149722632"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
       </body>
     </html>
   );
