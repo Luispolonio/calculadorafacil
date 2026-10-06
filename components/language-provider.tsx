@@ -8,11 +8,13 @@ const LanguageContext = createContext({
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("es");
   useEffect(() => {
-    const saved = localStorage.getItem("cf-language");
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem("cf-language");
+    } catch {}
     const timer = window.setTimeout(() => {
       if (saved === "en") {
         setLanguage("en");
-        document.documentElement.lang = "en";
       }
     }, 0);
     return () => window.clearTimeout(timer);
@@ -20,8 +22,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const toggle = () =>
     setLanguage((current) => {
       const next = current === "es" ? "en" : "es";
-      localStorage.setItem("cf-language", next);
-      document.documentElement.lang = next;
+      try {
+        localStorage.setItem("cf-language", next);
+      } catch {}
+
       return next;
     });
   return (

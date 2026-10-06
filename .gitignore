@@ -54,3 +54,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated local Python runtime; recreated by predev/prebuild
+/public/python-runtime/
+
+/public/mathlive-fonts/

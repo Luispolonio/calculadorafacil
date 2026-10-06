@@ -31,7 +31,7 @@ export default function EdgeXiPrivacyPage() {
         </Link>
       </header>
 
-      <main className="legal-page edge-privacy-page">
+      <main id="contenido" className="legal-page edge-privacy-page">
         <span className="kicker">
           <ShieldCheck /> Privacidad de la aplicación
         </span>

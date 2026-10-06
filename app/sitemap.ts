@@ -2,18 +2,8 @@ import type { MetadataRoute } from "next";
 
 export const dynamic = "force-static";
 
-const calculatorRoutes = [
-  "porcentaje",
-  "promedio",
-  "regla-de-tres",
-  "calculadora-notas",
-  "prestamo",
-  "interes-compuesto",
-  "edad",
-  "diferencia-fechas",
-  "descuento",
-  "convertir",
-];
+import { catalog } from "@/lib/catalog";
+const calculatorRoutes = [...catalog.map((tool) => tool.slug), "practica", "programacion"];
 
 const legalRoutes = [
   "sobre-nosotros",

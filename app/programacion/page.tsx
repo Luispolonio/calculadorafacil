@@ -1,0 +1,5 @@
+import type { Metadata } from 'next';
+import { Header,Footer } from '@/components/site-chrome';
+import ProgrammingLab from '@/components/programming-lab';
+export const metadata:Metadata={title:'Lógica de programación y Python interactivo | CalculadoraFácil',description:'Aprende variables, condicionales, bucles, listas, funciones y algoritmos. Escribe Python real y verifica tus soluciones con casos de prueba en el navegador.',alternates:{canonical:'/programacion'}};
+export default function ProgrammingPage(){return <><Header/><main id="contenido" className="section-container programming-page"><div className="page-intro"><span className="mono-eyebrow">LÓGICA DE PROGRAMACIÓN / DEL RAZONAMIENTO AL CÓDIGO</span><h1>Una idea. Un algoritmo.<br/><em>Tu primera solución.</em></h1><p>Avanza por 28 lecciones en tres niveles: básico, intermedio y avanzado. Escribe Python de verdad y comprueba tus soluciones, desde variables hasta grafos y programación dinámica. Sin instalaciones ni cuentas.</p></div><ProgrammingLab/></main><Footer/></>;}

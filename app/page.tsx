@@ -1,653 +1,238 @@
-"use client";
+import Link from "next/link";
 import {
   ArrowRight,
-  BarChart3,
-  CalendarDays,
-  Calculator,
-  ChevronDown,
-  Clock3,
-  Coins,
-  GraduationCap,
-  Languages,
-  Menu,
-  Percent,
-  Ruler,
-  Search,
-  Sparkles,
-  Star,
-  TrendingUp,
-  WalletCards,
-  X,
+  ArrowUpRight,
+  Check,
+  MoveDown,
+  PencilLine,
+  ScanLine,
+  Workflow,
 } from "lucide-react";
-import { useMemo, useState } from "react";
-import { useLanguage } from "@/components/language-provider";
-import Image from "next/image";
-import Link from "next/link";
-import AdSlot from "@/components/ad-slot";
-
-const tools = [
-  {
-    name: "Porcentajes",
-    enName: "Percentages",
-    description: "Calcula porcentajes, aumentos y variaciones.",
-    enDescription: "Calculate percentages, increases and variations.",
-    category: "Matemáticas",
-    enCategory: "Mathematics",
-    icon: Percent,
-    tone: "sky",
-    popular: true,
-    href: "/porcentaje",
-  },
-  {
-    name: "Préstamos",
-    enName: "Loans",
-    description: "Estima tu cuota, intereses y total a pagar.",
-    enDescription: "Estimate payments, interest and total cost.",
-    category: "Finanzas",
-    enCategory: "Finance",
-    icon: WalletCards,
-    tone: "blue",
-    popular: true,
-    href: "/prestamo",
-  },
-  {
-    name: "Promedio",
-    enName: "Average",
-    description: "Obtén el promedio de varios valores o notas.",
-    enDescription: "Find the average of several values or grades.",
-    category: "Estudios",
-    enCategory: "Education",
-    icon: BarChart3,
-    tone: "violet",
-    popular: true,
-    href: "/promedio",
-  },
-  {
-    name: "Edad",
-    enName: "Age",
-    description: "Conoce tu edad exacta en años, meses y días.",
-    enDescription: "Find your exact age in years, months and days.",
-    category: "Fechas y tiempo",
-    enCategory: "Dates and time",
-    icon: CalendarDays,
-    tone: "amber",
-    popular: true,
-    href: "/edad",
-  },
-  {
-    name: "Interés compuesto",
-    enName: "Compound interest",
-    description: "Proyecta cómo crecerán tus ahorros.",
-    enDescription: "Project how your savings will grow.",
-    category: "Finanzas",
-    enCategory: "Finance",
-    icon: TrendingUp,
-    tone: "emerald",
-    popular: true,
-    href: "/interes-compuesto",
-  },
-  {
-    name: "Regla de tres",
-    enName: "Rule of three",
-    description: "Resuelve proporciones de forma sencilla.",
-    enDescription: "Solve proportions in a simple way.",
-    category: "Matemáticas",
-    enCategory: "Mathematics",
-    icon: Calculator,
-    tone: "rose",
-    popular: true,
-    href: "/regla-de-tres",
-  },
-  {
-    name: "Descuentos",
-    enName: "Discounts",
-    description: "Calcula el precio final y cuánto ahorras.",
-    enDescription: "Calculate the final price and your savings.",
-    category: "Vida cotidiana",
-    enCategory: "Everyday life",
-    icon: Coins,
-    tone: "sky",
-    isNew: true,
-    href: "/descuento",
-  },
-  {
-    name: "Conversor de unidades",
-    enName: "Unit converter",
-    description: "Convierte longitud, peso y temperatura.",
-    enDescription: "Convert length, weight and temperature.",
-    category: "Conversores",
-    enCategory: "Converters",
-    icon: Ruler,
-    tone: "blue",
-    isNew: true,
-    href: "/convertir",
-  },
-  {
-    name: "Diferencia entre fechas",
-    enName: "Date difference",
-    description: "Cuenta días, semanas, meses y años.",
-    enDescription: "Count days, weeks, months and years.",
-    category: "Fechas y tiempo",
-    enCategory: "Dates and time",
-    icon: Clock3,
-    tone: "amber",
-    isNew: true,
-    href: "/diferencia-fechas",
-  },
-  {
-    name: "Calculadora de notas",
-    enName: "Grade calculator",
-    description: "Averigua qué nota necesitas para aprobar.",
-    enDescription: "Find out what grade you need to pass.",
-    category: "Estudios",
-    enCategory: "Education",
-    icon: GraduationCap,
-    tone: "violet",
-    isNew: true,
-    href: "/calculadora-notas",
-  },
-];
-const categories = [
-  {
-    name: "Matemáticas",
-    enName: "Mathematics",
-    count: 2,
-    icon: Calculator,
-    tone: "sky",
-  },
-  {
-    name: "Finanzas",
-    enName: "Finance",
-    count: 2,
-    icon: WalletCards,
-    tone: "blue",
-  },
-  {
-    name: "Estudios",
-    enName: "Education",
-    count: 2,
-    icon: GraduationCap,
-    tone: "violet",
-  },
-  {
-    name: "Fechas y tiempo",
-    enName: "Dates and time",
-    count: 2,
-    icon: CalendarDays,
-    tone: "amber",
-  },
-  {
-    name: "Vida cotidiana",
-    enName: "Everyday life",
-    count: 1,
-    icon: Coins,
-    tone: "rose",
-  },
-  {
-    name: "Conversores",
-    enName: "Converters",
-    count: 1,
-    icon: Ruler,
-    tone: "emerald",
-  },
-];
-const faqs = [
-  {
-    es: [
-      "¿Las calculadoras son gratuitas?",
-      "Sí. Todas las herramientas de CalculadoraFácil son gratuitas y puedes usarlas sin registrarte.",
-    ],
-    en: [
-      "Are the calculators free?",
-      "Yes. Every CalculadoraFácil tool is free and you can use it without signing up.",
-    ],
-  },
-  {
-    es: [
-      "¿Mis datos se guardan?",
-      "No enviamos los valores que introduces a ningún servidor. Los cálculos se realizan directamente en tu navegador.",
-    ],
-    en: [
-      "Is my data stored?",
-      "We do not send the values you enter to a server. Calculations run directly in your browser.",
-    ],
-  },
-  {
-    es: [
-      "¿Puedo usar los resultados para decisiones financieras?",
-      "Las herramientas ofrecen estimaciones orientativas. Para decisiones importantes, consulta a un profesional cualificado.",
-    ],
-    en: [
-      "Can I use the results for financial decisions?",
-      "These tools provide estimates. Consult a qualified professional for important decisions.",
-    ],
-  },
-  {
-    es: [
-      "¿Cómo encuentro una calculadora?",
-      "Usa el buscador superior o explora las categorías. Verás coincidencias mientras escribes.",
-    ],
-    en: [
-      "How do I find a calculator?",
-      "Use the search box or browse the categories. Matching tools appear as you type.",
-    ],
-  },
-];
-function ToolCard({ tool, en }: { tool: (typeof tools)[number]; en: boolean }) {
-  const Icon = tool.icon;
-  return (
-    <a className="tool-card" href={tool.href}>
-      <div className={`icon-box ${tool.tone}`}>
-        <Icon />
-      </div>
-      <div className="tool-copy">
-        <div className="tool-title-row">
-          <h3>{en ? tool.enName : tool.name}</h3>
-          {tool.isNew && <span className="badge">{en ? "New" : "Nueva"}</span>}
-        </div>
-        <p>{en ? tool.enDescription : tool.description}</p>
-        <span className="tool-link">
-          {en ? "Open calculator" : "Abrir calculadora"} <ArrowRight />
-        </span>
-      </div>
-    </a>
-  );
-}
-
+import { Header, Footer } from "@/components/site-chrome";
+import ToolCatalog from "@/components/tool-catalog";
+import FunctionPlot from "@/components/function-plot";
+import MathFormula from "@/components/math-formula";
+const demo = Array.from({ length: 121 }, (_, i) => {
+  const x = -1 + i / 20;
+  return { x, y: x * x - 5 * x + 6 };
+});
 export default function Home() {
-  const { language, toggle } = useLanguage();
-  const en = language === "en";
-  const [query, setQuery] = useState("");
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const matches = useMemo(() => {
-    const q = query.trim().toLocaleLowerCase();
-    return q
-      ? tools.filter((t) =>
-          `${t.name} ${t.enName} ${t.description} ${t.enDescription} ${t.category} ${t.enCategory}`
-            .toLocaleLowerCase()
-            .includes(q),
-        )
-      : [];
-  }, [query]);
   return (
-    <div className="site-shell">
-      <header className="header">
-        <a
-          className="brand"
-          href="#inicio"
-          aria-label="CalculadoraFácil, inicio"
-        >
-          <Image
-            className="brand-logo"
-            src="/calculadora-facil-logo.png"
-            alt="CalculadoraFácil"
-            width={180}
-            height={60}
-            priority
-          />
-        </a>
-        <nav className={menuOpen ? "nav open" : "nav"}>
-          <a href="#populares">{language === "es" ? "Populares" : "Popular"}</a>
-          <a href="#categorias">
-            {language === "es" ? "Categorías" : "Categories"}
-          </a>
-          <a href="#nuevas">{language === "es" ? "Nuevas" : "New"}</a>
-          <a href="#preguntas">{language === "es" ? "Ayuda" : "Help"}</a>
-        </nav>
-        <button
-          className="language-button"
-          onClick={toggle}
-          aria-label="Cambiar idioma"
-        >
-          <Languages />
-          <span>{language === "es" ? "ES" : "EN"}</span>
-        </button>
-        <a className="all-tools" href="#categorias">
-          {language === "es" ? "Todas las calculadoras" : "All calculators"}{" "}
-          <ArrowRight />
-        </a>
-        <button
-          className="menu-button"
-          aria-label="Abrir menú"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-      </header>
-      <main id="inicio">
-        <section className="hero">
-          <div className="hero-glow" />
-          <div className="eyebrow">
-            <Sparkles />{" "}
-            {language === "es"
-              ? "Cálculos claros, resultados al instante"
-              : "Clear calculations, instant results"}
-          </div>
-          <h1>
-            {language === "es"
-              ? "La respuesta que necesitas,"
-              : "The answer you need,"}
-            <br />
-            <span>
-              {language === "es"
-                ? "sin complicaciones."
-                : "without complications."}
+    <>
+      <Header />
+      <main id="contenido">
+        <section className="home-hero section-container">
+          <div className="hero-editorial">
+            <span className="mono-eyebrow">
+              <span className="status-dot" /> MENOS DUDAS. MÁS IDEAS.
             </span>
-          </h1>
-          <p className="hero-lead">
-            {language === "es"
-              ? "Herramientas gratuitas para resolver tus cálculos cotidianos de forma rápida, sencilla y confiable."
-              : "Free tools to solve everyday calculations quickly, simply and reliably."}
-          </p>
-          <div className="search-wrap">
-            <Search />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={
-                en
-                  ? "What do you need to calculate?"
-                  : "¿Qué necesitas calcular?"
-              }
-              aria-label={en ? "Search calculators" : "Buscar calculadoras"}
-            />
-            {query && (
-              <button
-                onClick={() => setQuery("")}
-                aria-label={en ? "Clear search" : "Limpiar búsqueda"}
-              >
-                <X />
-              </button>
-            )}
-            <span className="search-key">⌘ K</span>
-            {query && (
-              <div className="search-results">
-                {matches.length ? (
-                  matches.map((t) => {
-                    const Icon = t.icon;
-                    return (
-                      <a href={t.href} key={t.name}>
-                        <span className={`mini-icon ${t.tone}`}>
-                          <Icon />
-                        </span>
-                        <span>
-                          <strong>{en ? t.enName : t.name}</strong>
-                          <small>{en ? t.enCategory : t.category}</small>
-                        </span>
-                        <ArrowRight />
-                      </a>
-                    );
-                  })
-                ) : (
-                  <p>
-                    {en
-                      ? "We could not find that calculator. Try “money”, “age” or “percentage”."
-                      : "No encontramos esa calculadora. Prueba con “dinero”, “edad” o “porcentaje”."}
-                  </p>
-                )}
-              </div>
-            )}
+            <h1>
+              Las matemáticas
+              <br />
+              tienen <em>sentido.</em>
+              <span className="hero-asterisk" aria-hidden="true">
+                ✳
+              </span>
+            </h1>
+            <p className="hero-description">
+              Resuelve lo complejo. Entiende el proceso.
+              <br />
+              Un espacio para explorar, calcular y poner a prueba lo que sabes.
+            </p>
+            <div className="hero-actions">
+              <Link href="#herramientas" className="button primary">
+                Encuentra tu herramienta <ArrowUpRight size={20} />
+              </Link>
+              <Link href="/practica" className="text-action">
+                Quiero practicar <ArrowRight size={18} />
+              </Link>
+            </div>
+            <div className="hero-notes">
+              <span>
+                <Check size={15} /> Sin registro
+              </span>
+              <span>
+                <Check size={15} /> Explicaciones claras
+              </span>
+              <span>
+                <Check size={15} /> 100% gratuito
+              </span>
+            </div>
           </div>
-          <div className="quick-links">
-            <span>{en ? "Popular searches:" : "Búsquedas frecuentes:"}</span>
-            {(en
-              ? ["percentage", "loan", "average", "age"]
-              : ["porcentaje", "préstamo", "promedio", "edad"]
-            ).map((x) => (
-              <button onClick={() => setQuery(x)} key={x}>
-                {x[0].toUpperCase() + x.slice(1)}
-              </button>
+          <div className="hero-lab">
+            <div className="demo-top">
+              <span className="mono-eyebrow">EN EL LABORATORIO</span>
+              <span className="demo-live">ÁLGEBRA / 002</span>
+            </div>
+            <div className="demo-equation"><MathFormula latex="x^2-5x+6=0" /></div>
+            <p className="demo-subtitle">Cada curva cuenta una historia.</p>
+            <FunctionPlot
+              plot={{ points: demo, label: "f(x) = x² − 5x + 6", sources: ["x^2 - 5*x + 6"] }}
+              compact
+            />
+            <div className="demo-result">
+              <div>
+                <span>LAS RAÍCES</span>
+                <strong>
+                  x₁ = 2 <i /> x₂ = 3
+                </strong>
+              </div>
+              <Link
+                href="/ecuaciones-cuadraticas"
+                aria-label="Explorar ecuaciones de segundo grado"
+              >
+                <ArrowUpRight size={22} />
+              </Link>
+            </div>
+            <span className="margin-note">¡Aquí todo encaja!</span>
+          </div>
+        </section>
+        <div className="subject-strip">
+          <div className="section-container">
+            <span>ÁLGEBRA</span>
+            <b>+</b>
+            <span>CÁLCULO</span>
+            <b>∫</b>
+            <span>GEOMETRÍA</span>
+            <b>△</b>
+            <span>ESTADÍSTICA</span>
+            <b>σ</b>
+            <span>Y MUCHO MÁS</span>
+            <MoveDown size={16} />
+          </div>
+        </div>
+        <ToolCatalog />
+        <section className="programming-promo section-container"><div><span className="mono-eyebrow">NUEVO / LÓGICA DE PROGRAMACIÓN</span><h2>Del «lo entiendo»<br/>al <em>«lo programé».</em></h2><p>Variables, decisiones, bucles y algoritmos. 28 lecciones en tres niveles, con un editor de Python real, consola y pruebas: desde lo básico hasta grafos y programación dinámica.</p><Link className="button primary" href="/programacion">Aprender y escribir código <ArrowUpRight size={18}/></Link></div><div className="code-promo-snippet"><span>tu_primera_idea.py</span><pre><code>{"def resolver(ancho, alto):\n    area = ancho * alto\n    return area\n\nprint(resolver(3, 4))\n# 12 · una idea que ya funciona"}</code></pre><span>APRENDE → ESCRIBE → PRUEBA</span></div></section>
+        <section className="practice-promo section-container">
+          <div className="practice-promo-copy">
+            <span className="mono-eyebrow">02 / APRENDER HACIENDO</span>
+            <h2>
+              La respuesta importa.
+              <br />
+              <em>Entenderla, más.</em>
+            </h2>
+            <p>
+              Pasa de «creo que lo sé» a comprobarlo. Ejercicios aleatorios, una
+              pregunta a la vez y una explicación después de cada respuesta.
+            </p>
+            <Link className="button paper" href="/practica">
+              Entrar al modo práctica <ArrowUpRight size={20} />
+            </Link>
+            <span className="promo-footnote">
+              Tú eliges el tema. Nosotros planteamos el reto.
+            </span>
+          </div>
+          <div
+            className="practice-preview"
+            aria-label="Ejemplo de ejercicio de práctica"
+          >
+            <div>
+              <span>UN PEQUEÑO RETO</span>
+              <PencilLine size={18} />
+            </div>
+            <p>Si <MathFormula latex="f(x)=x^3" />, ¿cuál es <MathFormula latex="f'(x)" />?</p>
+            <div className="preview-option">
+              <span>A</span> x²
+            </div>
+            <div className="preview-option correct">
+              <span>B</span> 3x² <Check size={19} />
+            </div>
+            <div className="preview-option">
+              <span>C</span> 3x
+            </div>
+            <p className="preview-explanation">
+              La regla de potencia: baja el exponente y réstale uno.
+            </p>
+            <Link href="/practica">
+              Ahora te toca a ti <ArrowRight size={16} />
+            </Link>
+          </div>
+        </section>
+        <section className="method-section section-container" id="metodo">
+          <div className="section-title">
+            <div>
+              <span className="mono-eyebrow">03 / DEL PROBLEMA A LA IDEA</span>
+              <h2>
+                Más que <em>un resultado.</em>
+              </h2>
+            </div>
+            <p>
+              Herramientas para estudiar con criterio,
+              <br />a tu ritmo y desde tu navegador.
+            </p>
+          </div>
+          <div className="method-grid">
+            {[
+              {
+                n: "01",
+                icon: ScanLine,
+                title: "Plantea tu problema",
+                text: "Elige una herramienta, introduce los datos o parte de un ejemplo. Cada campo te indica qué necesita.",
+              },
+              {
+                n: "02",
+                icon: Workflow,
+                title: "Sigue el razonamiento",
+                text: "Consulta el método, las condiciones y la gráfica cuando corresponde. Distingue resultados exactos de aproximaciones.",
+              },
+              {
+                n: "03",
+                icon: PencilLine,
+                title: "Comprueba lo aprendido",
+                text: "Practica con nuevos ejercicios. Revisa por qué una respuesta es correcta y vuelve a intentarlo con otro problema.",
+              },
+            ].map((x) => (
+              <article key={x.n}>
+                <div>
+                  <span>{x.n}</span>
+                  <x.icon size={22} />
+                </div>
+                <h3>{x.title}</h3>
+                <p>{x.text}</p>
+              </article>
             ))}
           </div>
         </section>
-        <section className="section" id="populares">
-          <div className="section-heading">
-            <div>
-              <span className="kicker">
-                <Star /> {en ? "Community favorites" : "Las favoritas"}
-              </span>
-              <h2>
-                {en ? "Most-used calculators" : "Calculadoras más utilizadas"}
-              </h2>
-              <p>
-                {en
-                  ? "The tools that help our community the most."
-                  : "Las herramientas que más ayudan a nuestra comunidad."}
-              </p>
-            </div>
-            <a href="#categorias">
-              {en ? "View all" : "Ver todas"} <ArrowRight />
-            </a>
-          </div>
-          <div className="tool-grid">
-            {tools
-              .filter((t) => t.popular)
-              .map((t) => (
-                <ToolCard tool={t} en={en} key={t.name} />
-              ))}
-          </div>
-        </section>
-        <AdSlot placement="home-after-popular" format="leaderboard" />
-        <section className="category-section" id="categorias">
-          <div className="section centered">
-            <span className="kicker">
-              {en ? "Explore your way" : "Explora a tu manera"}
-            </span>
-            <h2>{en ? "Find tools by category" : "Encuentra por categoría"}</h2>
-            <p className="section-intro">
-              {en
-                ? "Everything is organized so you can find the right tool in seconds."
-                : "Todo ordenado para que llegues a la herramienta indicada en pocos segundos."}
-            </p>
-            <div className="category-grid">
-              {categories.map((c) => {
-                const Icon = c.icon;
-                return (
-                  <a href="#populares" className="category-card" key={c.name}>
-                    <div className={`icon-box ${c.tone}`}>
-                      <Icon />
-                    </div>
-                    <div>
-                      <h3>{en ? c.enName : c.name}</h3>
-                      <p>
-                        {c.count} {en ? "calculators" : "calculadoras"}
-                      </p>
-                    </div>
-                    <ArrowRight className="category-arrow" />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-        <AdSlot placement="home-after-categories" format="leaderboard" />
-        <section className="section" id="nuevas">
-          <div className="section-heading">
-            <div>
-              <span className="kicker">
-                <Sparkles /> {en ? "Just added" : "Recién llegadas"}
-              </span>
-              <h2>{en ? "New calculators" : "Nuevas calculadoras"}</h2>
-              <p>
-                {en
-                  ? "More solutions to make your day a little easier."
-                  : "Más soluciones para hacerte el día un poco más fácil."}
-              </p>
-            </div>
-          </div>
-          <div className="tool-grid four">
-            {tools
-              .filter((t) => t.isNew)
-              .map((t) => (
-                <ToolCard tool={t} en={en} key={t.name} />
-              ))}
-          </div>
-        </section>
-        <section className="trust-band">
-          <div className="trust-copy">
-            <span className="kicker light">
-              {en ? "Made to help you" : "Hecho para ayudarte"}
-            </span>
-            <h2>
-              {en
-                ? "Calculating should be easy."
-                : "Calcular debería ser fácil."}
-              <br />
-              {en
-                ? "That is why we keep it simple."
-                : "Por eso lo hacemos simple."}
-            </h2>
-            <p>
-              {en
-                ? "No accounts, no fine print and no unnecessary steps. Choose a tool, enter your data and get a clear answer."
-                : "Sin registros, sin letras pequeñas y sin pasos innecesarios. Solo eliges una herramienta, introduces tus datos y obtienes una respuesta clara."}
-            </p>
-            <div className="trust-points">
-              <span>
-                <strong>100%</strong> {en ? "free" : "gratis"}
-              </span>
-              <span>
-                <strong>0</strong> {en ? "accounts" : "registros"}
-              </span>
-              <span>
-                <strong>10</strong> {en ? "calculators" : "calculadoras"}
-              </span>
-            </div>
-          </div>
-          <div className="trust-card">
-            <div className="mock-top">
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className="mock-line" />
-            <div className="mock-fields">
-              <div />
-              <div />
-            </div>
-            <div className="mock-button">{en ? "Calculate" : "Calcular"}</div>
-            <div className="mock-result">
-              <small>{en ? "Your result" : "Tu resultado"}</small>
-              <strong>30</strong>
-              <span>{en ? "20% of 150" : "20% de 150"}</span>
-            </div>
-          </div>
-        </section>
-        <section className="section faq-section" id="preguntas">
-          <span className="kicker">
-            {en ? "We are here to help" : "Estamos para ayudarte"}
-          </span>
-          <h2>{en ? "Frequently asked questions" : "Preguntas frecuentes"}</h2>
-          <p className="section-intro">
-            {en
-              ? "Quick answers before you begin."
-              : "Respuestas rápidas antes de empezar."}
-          </p>
-          <div className="faq-list">
-            {faqs.map((faq, i) => {
-              const [q, a] = en ? faq.en : faq.es;
-              return (
-                <div
-                  className={`faq-item ${openFaq === i ? "expanded" : ""}`}
-                  key={q}
-                >
-                  <button
-                    aria-expanded={openFaq === i}
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  >
-                    <span>{q}</span>
-                    <ChevronDown />
-                  </button>
-                  {openFaq === i && <p>{a}</p>}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-        <AdSlot placement="home-before-footer" format="leaderboard" />
-        <section className="cta">
+        <section className="faq-section-new section-container">
           <div>
-            <span className="kicker light">
-              {en ? "Ready to get started?" : "¿Listo para empezar?"}
-            </span>
+            <span className="mono-eyebrow">ANTES DE EMPEZAR</span>
             <h2>
-              {en
-                ? "Find the calculator you need."
-                : "Encuentra la calculadora que necesitas."}
+              Una duda
+              <br />
+              <em>menos.</em>
             </h2>
-            <p>
-              {en
-                ? "10 free calculators with formulas, examples and practical guides."
-                : "10 calculadoras gratuitas con fórmulas, ejemplos y guías prácticas."}
-            </p>
           </div>
-          <a href="#categorias">
-            {en ? "Explore calculators" : "Explorar calculadoras"}{" "}
-            <ArrowRight />
-          </a>
+          <div className="faq-entries">
+            {[
+              [
+                "¿Qué puedo resolver aquí?",
+                "Ecuaciones de hasta tercer grado, sistemas lineales, derivadas, integrales de familias compatibles, EDO de primer orden, operaciones con conjuntos y otros problemas de álgebra, geometría y estadística. Cada herramienta explica su alcance.",
+              ],
+              [
+                "¿Los resultados son siempre exactos?",
+                "No. Las derivadas y primitivas compatibles son simbólicas; las raíces y otros cálculos usan aritmética numérica. Las EDO son aproximaciones RK4 y el explorador de límites no constituye una demostración.",
+              ],
+              [
+                "¿Cómo funciona el modo práctica?",
+                "Elige un tema y una dificultad. Completa diez preguntas generadas al azar, comprueba cada respuesta y revisa las explicaciones. La puntuación es orientativa y no una evaluación académica.",
+              ],
+              [
+                "¿Necesito una cuenta?",
+                "No. Las herramientas y ejercicios son gratuitos. Los valores de tus cálculos se procesan en tu navegador y no se envían a un servidor.",
+              ],
+            ].map(([q, a]) => (
+              <details key={q}>
+                <summary>
+                  {q}
+                  <span>+</span>
+                </summary>
+                <p>{a}</p>
+              </details>
+            ))}
+          </div>
         </section>
       </main>
-      <footer>
-        <div className="footer-main">
-          <div className="footer-brand">
-            <a className="brand inverted" href="#inicio">
-              <Image
-                className="brand-logo"
-                src="/calculadora-facil-logo.png"
-                alt="CalculadoraFácil"
-                width={180}
-                height={60}
-              />
-            </a>
-            <p>
-              {en
-                ? "Everyday calculations solved quickly, simply and reliably."
-                : "Resolvemos tus cálculos cotidianos de forma rápida, sencilla y confiable."}
-            </p>
-          </div>
-          <div>
-            <h3>{en ? "Calculators" : "Calculadoras"}</h3>
-            <a href="#populares">{en ? "Most used" : "Más utilizadas"}</a>
-            <a href="#nuevas">{en ? "New" : "Nuevas"}</a>
-            <a href="#categorias">{en ? "All" : "Todas"}</a>
-          </div>
-          <div>
-            <h3>{en ? "Categories" : "Categorías"}</h3>
-            <a href="#categorias">{en ? "Mathematics" : "Matemáticas"}</a>
-            <a href="#categorias">{en ? "Finance" : "Finanzas"}</a>
-            <a href="#categorias">
-              {en ? "Dates and time" : "Fechas y tiempo"}
-            </a>
-          </div>
-          <div>
-            <h3>{en ? "Information" : "Información"}</h3>
-            <Link href="/legal/sobre-nosotros">
-              {en ? "About us" : "Sobre nosotros"}
-            </Link>
-            <Link href="/legal/contacto">{en ? "Contact" : "Contacto"}</Link>
-            <Link href="/legal/privacidad">
-              {en ? "Privacy" : "Privacidad"}
-            </Link>
-            <Link href="/legal/cookies">{en ? "Cookies" : "Cookies"}</Link>
-            <Link href="/legal/terminos">{en ? "Terms" : "Términos"}</Link>
-            <Link href="/legal/aviso-legal">
-              {en ? "Legal notice" : "Aviso legal"}
-            </Link>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>
-            © 2026 CalculadoraFácil.{" "}
-            {en ? "All rights reserved." : "Todos los derechos reservados."}
-          </span>
-          <span>
-            {en
-              ? "Made with clarity for everyone."
-              : "Hecho con claridad para todos."}
-          </span>
-        </div>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }

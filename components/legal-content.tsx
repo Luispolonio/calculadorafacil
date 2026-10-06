@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import { Brand, Footer } from "@/components/site-chrome";
 import Link from "next/link";
 import { ArrowLeft, Languages } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
@@ -11,8 +11,8 @@ const pages: Record<
   "sobre-nosotros": {
     title: ["Sobre CalculadoraFácil", "About CalculadoraFácil"],
     intro: [
-      "Creamos herramientas claras para resolver cálculos cotidianos sin registros ni pasos innecesarios.",
-      "We create clear tools for everyday calculations without accounts or unnecessary steps.",
+      "Creamos un laboratorio de matemáticas para resolver problemas de álgebra, cálculo, geometría y estadística, y practicar con ejercicios aleatorios sin registrarse.",
+      "We build a mathematics lab for algebra, calculus, geometry and statistics, with randomized practice and no registration.",
     ],
     sections: [
       {
@@ -164,8 +164,8 @@ const pages: Record<
       {
         heading: ["Naturaleza informativa", "Informational nature"],
         body: [
-          "El contenido del sitio tiene fines informativos y educativos. Las calculadoras financieras no constituyen una oferta de crédito o inversión.",
-          "Site content is informational and educational. Financial calculators are not an offer of credit or investment.",
+          "El contenido del sitio tiene fines educativos. Cada herramienta distingue su alcance, sus métodos y sus limitaciones. Los resultados numéricos requieren considerar el dominio y la precisión.",
+          "Site content is educational. Each tool explains its scope, methods and limitations. Numerical results require attention to domain and precision.",
         ],
       },
       {
@@ -186,16 +186,7 @@ export default function LegalContent({ page }: { page: string }) {
   return (
     <div className="legal-site">
       <header className="calc-header">
-        <Link className="brand" href="/">
-          <Image
-            className="brand-logo"
-            src="/calculadora-facil-logo.png"
-            alt="CalculadoraFácil"
-            width={180}
-            height={60}
-            priority
-          />
-        </Link>
+        <Brand />
         <Link className="back-home" href="/">
           <ArrowLeft />
           {en ? "Back home" : "Volver al inicio"}
@@ -205,7 +196,7 @@ export default function LegalContent({ page }: { page: string }) {
           <span>{en ? "EN" : "ES"}</span>
         </button>
       </header>
-      <main className="legal-page">
+      <main id="contenido" className="legal-page" lang={en ? "en" : "es"}>
         <span className="kicker">
           {en ? "Legal information" : "Información legal"}
         </span>
@@ -219,10 +210,11 @@ export default function LegalContent({ page }: { page: string }) {
         ))}
         <p className="legal-updated">
           {en
-            ? "Last updated: September 13, 2026"
-            : "Última actualización: 13 de septiembre de 2026"}
+            ? "Last updated: October 5, 2026"
+            : "Última actualización: 5 de octubre de 2026"}
         </p>
       </main>
+      <Footer />
     </div>
   );
 }

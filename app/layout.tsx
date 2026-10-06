@@ -1,59 +1,59 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 import { LanguageProvider } from "@/components/language-provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const display = localFont({
+  src: "../public/fonts/fraunces.ttf",
+  weight: "100 900",
+  variable: "--font-display",
+  display: "swap",
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const sans = localFont({
+  src: "../public/fonts/manrope.ttf",
+  weight: "200 800",
+  variable: "--font-sans",
+  display: "swap",
 });
-
+const mono = localFont({
+  src: "../public/fonts/modenine.ttf",
+  variable: "--font-mono",
+  display: "swap",
+});
 export const metadata: Metadata = {
   metadataBase: new URL("https://calculadorafacil.dev"),
-  other: {
-    "google-adsense-account": "ca-pub-3071749149722632",
-  },
-  title: "CalculadoraFácil | Calculadoras online gratis",
+  other: { "google-adsense-account": "ca-pub-3071749149722632" },
+  title: "CalculadoraFácil | Laboratorio de matemáticas",
   description:
-    "Calculadoras gratuitas en español para porcentajes, finanzas, estudios, fechas, conversiones y cálculos cotidianos.",
+    "Resuelve y comprende álgebra, ecuaciones, derivadas, integrales, geometría y estadística. 26 herramientas gratuitas y ejercicios aleatorios con explicaciones.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     siteName: "CalculadoraFácil",
-    title: "CalculadoraFácil | Calculadoras online gratis",
+    title: "Las matemáticas tienen sentido | CalculadoraFácil",
     description:
-      "Calculadoras gratuitas para porcentajes, finanzas, estudios, fechas y conversiones.",
-    images: [
-      {
-        url: "/calculadora-facil-logo.png",
-        width: 2172,
-        height: 724,
-        alt: "CalculadoraFácil",
-      },
-    ],
+      "Un laboratorio para resolver problemas, entender el proceso y practicar matemáticas.",
   },
   twitter: {
-    card: "summary_large_image",
-    title: "CalculadoraFácil | Calculadoras online gratis",
+    card: "summary",
+    title: "CalculadoraFácil | Laboratorio de matemáticas",
     description:
-      "Calculadoras gratuitas para porcentajes, finanzas, estudios, fechas y conversiones.",
-    images: ["/calculadora-facil-logo.png"],
+      "Resuelve, comprende y practica. Álgebra, cálculo, geometría y estadística.",
   },
 };
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
-      <body className="min-h-full flex flex-col">
+      <body>
+        <a className="skip-link" href="#contenido">
+          Saltar al contenido
+        </a>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
