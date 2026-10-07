@@ -33,7 +33,7 @@ La compilación genera `out/`. El motor matemático se carga en un Web Worker al
 - `components/practice-lab.tsx`: sesiones de diez preguntas, corrección y revisión final.
 - `tests/`: casos matemáticos, propiedades del generador, renderizado LaTeX y soluciones Python de referencia.
 
-Los scripts `predev` y `prebuild` copian los recursos de Pyodide a `public/python-runtime/` desde la dependencia fijada en el lockfile. Son archivos generados e ignorados por Git; la exportación `out/` los incluye. Python y Plotly se cargan solo al necesitarlos. Python dispone de 60 segundos para inicializarse y 8 segundos por ejecución; puede detenerse sin bloquear la interfaz. Los borradores y el progreso de programación se conservan en memoria durante la visita. No se admiten entradas interactivas con `input()`; los retos reciben parámetros. Las pruebas comprueban casos concretos, no demuestran corrección universal.
+La configuración de Next ejecuta los scripts que copian los recursos de Pyodide a `public/python-runtime/` desde la dependencia fijada en el lockfile. Son archivos generados e ignorados por Git; la exportación `out/` los incluye. Python y Plotly se cargan solo al necesitarlos. Python dispone de 60 segundos para inicializarse y 8 segundos por ejecución; puede detenerse sin bloquear la interfaz. Los borradores y el progreso de programación se conservan en memoria durante la visita. No se admiten entradas interactivas con `input()`; los retos reciben parámetros. Las pruebas comprueban casos concretos, no demuestran corrección universal.
 
 ## Alcance matemático
 
@@ -60,4 +60,4 @@ Las diez rutas de calculadoras cotidianas anteriores dejan de generarse y desapa
 
 No se ha publicado ni solicitado una nueva revisión de AdSense. La aprobación depende de la revisión de Google; consulta el motivo exacto de rechazo antes de reenviar el sitio.
 
-Las ayudas, guías y ejemplos del catálogo marcan sus fórmulas con delimitadores `\\(` y `\\)` para renderizarlas mediante `MathText`. Las entradas son campos matemáticos visuales; MathLive serializa la fórmula a una expresión validada antes del cálculo. Sus fuentes se copian localmente durante prebuild. No se requiere asterisco para multiplicaciones implícitas; se recomienda agrupar denominadores con paréntesis.
+Las ayudas, guías y ejemplos del catálogo marcan sus fórmulas con delimitadores `\\(` y `\\)` para renderizarlas mediante `MathText`. Las entradas son campos matemáticos visuales; MathLive serializa la fórmula a una expresión validada antes del cálculo. Sus fuentes se copian localmente al cargar la configuración de desarrollo o compilación. No se requiere asterisco para multiplicaciones implícitas; se recomienda agrupar denominadores con paréntesis.

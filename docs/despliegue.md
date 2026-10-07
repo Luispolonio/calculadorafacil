@@ -3,7 +3,7 @@
 El proyecto exporta archivos estáticos. Configuración del proyecto conectado a GitHub:
 
 - Comando de instalación: `npm ci` (si Cloudflare solicita uno).
-- Comando de compilación: **`npm run build`**, no `npx next build`: el script previo copia Python y las fuentes del editor matemático.
+- Comando de compilación: **`npm run build`**. También se admite `npx next build`: la configuración de Next prepara Python y las fuentes de MathLive antes de compilar, sin depender de los hooks de npm.
 - Directorio de salida: **`out`**.
 - Node: **24.12.0**, mediante `.nvmrc` o `NODE_VERSION`.
 - Preset compatible: Next.js (Static HTML Export). No requiere un servidor Node ni adaptador de Workers.
@@ -22,3 +22,11 @@ Antes de subir: `npm ci`, `npm test`, `npm run lint`, `npm run build`. Las prueb
 Este documento prepara los pasos posteriores: no afirma que se haya publicado, enviado el sitemap o solicitado la revisión de AdSense.
 
 Referencia oficial de alojamiento: https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/
+
+## Verificación del 6 de octubre de 2026
+
+- Producción devolvía HTTP 404 y HTML para `/python-runtime/pyodide.js`; también faltaba una fuente de MathLive. La configuración de Next ahora prepara ambos recursos incluso al ejecutar `npx next build` directamente.
+- Compilación comprobada apartando previamente las dos carpetas generadas: la exportación recuperó los cinco archivos de Python y las veinte fuentes de MathLive, idénticos a las dependencias instaladas. Lint correcto.
+- Las 36 URLs del sitemap público respondieron HTTP 200 tras redirecciones, con canonical y sin meta noindex. Robots permite el rastreo. El sitemap local ahora enlaza las URLs finales con barra.
+- Se volvió a enviar `https://calculadorafacil.dev/sitemap.xml` en la propiedad de dominio de Search Console. Google mostró «Se ha enviado el sitemap correctamente». La cifra de 18 páginas descubiertas correspondía todavía a la lectura anterior del 21 de septiembre; no es el resultado del envío nuevo.
+- Pendiente: subir estos cambios y desplegar la corrección del runtime. El envío a Google no equivale a indexación garantizada ni a aprobación de AdSense.

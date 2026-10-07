@@ -19,22 +19,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/`,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/privacidad/edgexi`,
+      url: `${baseUrl}/privacidad/edgexi/`,
       changeFrequency: "yearly",
       priority: 0.4,
     },
     ...calculatorRoutes.map((route) => ({
-      url: `${baseUrl}/${route}`,
+      url: `${baseUrl}/${route}/`,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...legalRoutes.map((route) => ({
-      url: `${baseUrl}/legal/${route}`,
+      url: `${baseUrl}/legal/${route}/`,
       changeFrequency: "yearly" as const,
       priority: 0.3,
     })),
