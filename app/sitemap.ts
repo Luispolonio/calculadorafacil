@@ -24,6 +24,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${baseUrl}/edgexi/`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/privacidad/edgexi/`,
       changeFrequency: "yearly",
       priority: 0.4,
