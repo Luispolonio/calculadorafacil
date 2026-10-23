@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Header, Footer } from "@/components/site-chrome";
-import { AdHorizontal } from "@/components/ads";
 export default function NotFound() {
   return (
     <>
@@ -13,13 +12,10 @@ export default function NotFound() {
           Encuentra herramientas de álgebra, cálculo, geometría y estadística, o
           practica con ejercicios nuevos.
         </p>
-        <AdHorizontal />
         <Link href="/#herramientas" className="button primary">
           Explorar las herramientas →
         </Link>
-        <AdHorizontal />
       </main>
-      <AdHorizontal />
       <Footer />
     </>
   );

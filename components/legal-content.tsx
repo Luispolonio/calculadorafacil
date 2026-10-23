@@ -93,10 +93,10 @@ const pages: Record<
         ],
       },
       {
-        heading: ["Servicios futuros", "Future services"],
+        heading: ["Publicidad de Google AdSense", "Google AdSense advertising"],
         body: [
-          "Si incorporamos analítica o publicidad, actualizaremos esta política y mostraremos los controles de consentimiento aplicables antes de activarlos.",
-          "If analytics or advertising are introduced, we will update this policy and provide applicable consent controls before activation.",
+          "Utilizamos Google AdSense para financiar el sitio. Google y otros proveedores publicitarios pueden utilizar cookies para mostrar y medir anuncios basados en tus visitas a este y otros sitios. Estos servicios pueden recibir datos como tu dirección IP, información del navegador e identificadores publicitarios, según el consentimiento y la configuración aplicables.",
+          "We use Google AdSense to fund the site. Google and other advertising providers may use cookies to display and measure ads based on your visits to this and other sites. These services may receive data such as your IP address, browser information and advertising identifiers, depending on applicable consent and settings.",
         ],
       },
     ],
@@ -104,8 +104,8 @@ const pages: Record<
   cookies: {
     title: ["Política de cookies", "Cookie policy"],
     intro: [
-      "Actualmente CalculadoraFácil no utiliza cookies publicitarias ni de seguimiento.",
-      "CalculadoraFácil currently does not use advertising or tracking cookies.",
+      "CalculadoraFácil utiliza almacenamiento local para tus preferencias e integra Google AdSense, que puede utilizar cookies y tecnologías similares para publicidad.",
+      "CalculadoraFácil uses local storage for your preferences and integrates Google AdSense, which may use cookies and similar technologies for advertising.",
     ],
     sections: [
       {
@@ -116,10 +116,10 @@ const pages: Record<
         ],
       },
       {
-        heading: ["Cambios futuros", "Future changes"],
+        heading: ["Cookies publicitarias y preferencias", "Advertising cookies and preferences"],
         body: [
-          "Antes de habilitar servicios que requieran cookies no esenciales, añadiremos un mecanismo de consentimiento y actualizaremos esta página.",
-          "Before enabling services that require non-essential cookies, we will add consent controls and update this page.",
+          "Google y sus partners pueden utilizar cookies para personalizar anuncios según tus visitas a este y otros sitios, medir su rendimiento y prevenir el fraude. Puedes gestionar la personalización en Mi centro de anuncios de Google y borrar o bloquear cookies desde tu navegador. Estas opciones no sustituyen los controles de consentimiento aplicables a tu región.",
+          "Google and its partners may use cookies to personalize ads based on visits to this and other sites, measure performance and prevent fraud. You can manage personalization in Google My Ad Center and delete or block cookies in your browser. These options do not replace consent controls applicable to your region.",
         ],
       },
     ],
@@ -208,10 +208,20 @@ export default function LegalContent({ page }: { page: string }) {
             <p>{section.body[en ? 1 : 0]}</p>
           </section>
         ))}
+        {(page === "privacidad" || page === "cookies") && (
+          <section>
+            <h2>{en ? "Advertising privacy controls" : "Controles de privacidad publicitaria"}</h2>
+            <ul>
+              <li><a href="https://policies.google.com/technologies/partner-sites">{en ? "How Google uses data on partner sites" : "Cómo utiliza Google los datos de sitios asociados"}</a></li>
+              <li><a href="https://myadcenter.google.com/">{en ? "Google My Ad Center" : "Mi centro de anuncios de Google"}</a></li>
+              <li><a href="https://optout.aboutads.info/">{en ? "Other providers: advertising choices" : "Otros proveedores: preferencias publicitarias"}</a></li>
+            </ul>
+          </section>
+        )}
         <p className="legal-updated">
           {en
-            ? "Last updated: October 5, 2026"
-            : "Última actualización: 5 de octubre de 2026"}
+            ? "Last updated: October 23, 2026"
+            : "Última actualización: 23 de octubre de 2026"}
         </p>
       </main>
       <Footer />
