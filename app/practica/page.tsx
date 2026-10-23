@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Header, Footer } from "@/components/site-chrome";
 import PracticeLab from "@/components/practice-lab";
+import { AdHorizontal } from "@/components/ads";
 export const metadata: Metadata = {
   title: "Ejercicios aleatorios y test de matemáticas | CalculadoraFácil",
   description:
@@ -25,11 +26,13 @@ export default function PracticePage() {
             una explicación.
           </p>
         </div>
+        <AdHorizontal />
         <Suspense
           fallback={<p role="status">Preparando tu espacio de práctica…</p>}
         >
           <PracticeLab />
         </Suspense>
+        <AdHorizontal />
       </main>
       <Footer />
     </>

@@ -7,6 +7,7 @@ import { Header, Footer } from "@/components/site-chrome";
 import MathWorkspace from "@/components/math-workspace";
 import { practiceProse } from "@/lib/math-notation";
 import { MathText } from "@/components/math-formula";
+import { AdHorizontal, AdVertical } from "@/components/ads";
 export const dynamicParams = false;
 export function generateStaticParams() {
   return catalog.map((t) => ({ slug: t.slug }));
@@ -68,6 +69,7 @@ export default async function CalculatorPage({
                 </div>
               ))}
           </nav>
+          <AdVertical label="Publicidad" />
         </aside>
         <div className="calculator-main">
           <div className="tool-breadcrumb">
@@ -77,6 +79,7 @@ export default async function CalculatorPage({
             <span>/</span>
             <span>{tool.title}</span>
           </div>
+          <AdHorizontal />
           <div className="tool-page-heading">
             <span className="mono-eyebrow">
               {tool.category.toUpperCase()} / HERRAMIENTA INTERACTIVA
@@ -85,6 +88,7 @@ export default async function CalculatorPage({
             <p><MathText text={practiceProse(tool.description)}/></p>
           </div>
           <MathWorkspace key={slug} tool={tool} />
+          <AdHorizontal />
           <article className="tool-guide" id="guia">
             <div className="guide-heading">
               <BookOpen size={22} />
@@ -126,6 +130,7 @@ export default async function CalculatorPage({
               para CalculadoraFácil.
             </p>
           </article>
+          <AdHorizontal />
           <div className="tool-practice-cta">
             <div>
               <span className="mono-eyebrow">AHORA, SIN AYUDA</span>
@@ -139,6 +144,7 @@ export default async function CalculatorPage({
               Practicar <ArrowUpRight size={18} />
             </Link>
           </div>
+          <AdHorizontal />
           <section className="related-tools">
             <span className="mono-eyebrow">SIGUE EXPLORANDO</span>
             <div>
@@ -154,6 +160,7 @@ export default async function CalculatorPage({
                 ))}
             </div>
           </section>
+          <AdHorizontal />
         </div>
       </main>
       <Footer />

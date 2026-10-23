@@ -7,6 +7,7 @@ import { catalog, categories } from "@/lib/catalog";
 import MathFormula, { MathText } from "./math-formula";
 import { exerciseMath, notation, practiceProse } from "@/lib/math-notation";
 import { celebrate } from "@/lib/celebrate";
+import { AdHorizontal, AdVertical } from "@/components/ads";
 import {
   generateExercise,
   randomTopic,
@@ -138,6 +139,7 @@ export default function PracticeLab() {
             <RotateCcw size={16} /> Reiniciar sesión
           </button>
         )}
+        <AdVertical />
       </aside>
       <section className="practice-workspace" aria-label="Ejercicios">
         {!exercise ? (
@@ -286,6 +288,7 @@ export default function PracticeLab() {
                 Tómate tu tiempo. Puedes hacer los cálculos en papel.
               </p>
             )}
+            <AdHorizontal />
             <div className="exercise-actions">
               {!checked ? (
                 <button
@@ -311,6 +314,7 @@ export default function PracticeLab() {
             </div>
           </>
         )}
+        <AdHorizontal />
       </section>
     </div>
   );

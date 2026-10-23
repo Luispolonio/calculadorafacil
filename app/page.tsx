@@ -12,6 +12,7 @@ import { Header, Footer } from "@/components/site-chrome";
 import ToolCatalog from "@/components/tool-catalog";
 import FunctionPlot from "@/components/function-plot";
 import MathFormula from "@/components/math-formula";
+import { AdHorizontal } from "@/components/ads";
 const demo = Array.from({ length: 121 }, (_, i) => {
   const x = -1 + i / 20;
   return { x, y: x * x - 5 * x + 6 };
@@ -87,6 +88,7 @@ export default function Home() {
             <span className="margin-note">¡Aquí todo encaja!</span>
           </div>
         </section>
+        <AdHorizontal label="Publicidad" />
         <div className="subject-strip">
           <div className="section-container">
             <span>ÁLGEBRA</span>
@@ -102,7 +104,11 @@ export default function Home() {
           </div>
         </div>
         <ToolCatalog />
+        <div className="section-container">
+          <AdHorizontal />
+        </div>
         <section className="programming-promo section-container"><div><span className="mono-eyebrow">NUEVO / LÓGICA DE PROGRAMACIÓN</span><h2>Del «lo entiendo»<br/>al <em>«lo programé».</em></h2><p>Variables, decisiones, bucles y algoritmos. 28 lecciones en tres niveles, con un editor de Python real, consola y pruebas: desde lo básico hasta grafos y programación dinámica.</p><Link className="button primary" href="/programacion">Aprender y escribir código <ArrowUpRight size={18}/></Link></div><div className="code-promo-snippet"><span>tu_primera_idea.py</span><pre><code>{"def resolver(ancho, alto):\n    area = ancho * alto\n    return area\n\nprint(resolver(3, 4))\n# 12 · una idea que ya funciona"}</code></pre><span>APRENDE → ESCRIBE → PRUEBA</span></div></section>
+        <AdHorizontal />
         <section className="practice-promo section-container">
           <div className="practice-promo-copy">
             <span className="mono-eyebrow">02 / APRENDER HACIENDO</span>
@@ -148,6 +154,7 @@ export default function Home() {
             </Link>
           </div>
         </section>
+        <AdHorizontal />
         <section className="method-section section-container" id="metodo">
           <div className="section-title">
             <div>
@@ -193,6 +200,7 @@ export default function Home() {
             ))}
           </div>
         </section>
+        <AdHorizontal />
         <section className="faq-section-new section-container">
           <div>
             <span className="mono-eyebrow">ANTES DE EMPEZAR</span>
@@ -231,6 +239,7 @@ export default function Home() {
             ))}
           </div>
         </section>
+        <AdHorizontal />
       </main>
       <Footer />
     </>
