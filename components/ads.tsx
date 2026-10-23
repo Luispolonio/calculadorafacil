@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import Script from "next/script";
 
 const ADSENSE_CLIENT = "ca-pub-3071749149722632";
 const AD_SLOTS = {
@@ -12,6 +11,24 @@ declare global {
   interface Window {
     adsbygoogle: unknown[];
   }
+}
+
+// Share one native script and wait for it before exposing units to AdSense.
+// next/script adds data-nscript, which AdSense reports as unsupported.
+let adsenseScript: Promise<void> | undefined;
+function loadAdSense() {
+  if (!adsenseScript) {
+    adsenseScript = new Promise<void>((resolve, reject) => {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+      script.crossOrigin = "anonymous";
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error("No se pudo cargar el script de AdSense"));
+      document.head.appendChild(script);
+    });
+  }
+  return adsenseScript;
 }
 
 type AdVariant = keyof typeof AD_SLOTS;
@@ -29,11 +46,17 @@ function AdUnit({
     const element = ad.current;
     if (!element || pushed.current) return;
 
+    let active = true;
+    let loaded = false;
     const initialize = () => {
+      if (!active || !loaded) return;
       if (pushed.current || element.hasAttribute("data-adsbygoogle-status")) return;
       // Responsive units need a measurable width, including after a hidden
       // sidebar becomes visible. Never refresh a unit on subsequent resizes.
       if (element.getBoundingClientRect().width <= 0) return;
+      // push({}) fills the first eligible unit, not necessarily this ref.
+      // Keep hidden/waiting units out of that selection until they are ready.
+      element.classList.add("adsbygoogle");
       pushed.current = true;
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -43,18 +66,18 @@ function AdUnit({
     };
     const observer = new ResizeObserver(initialize);
     observer.observe(element);
-    initialize();
-    return () => observer.disconnect();
+    void loadAdSense().then(() => {
+      loaded = true;
+      initialize();
+    }).catch((error: unknown) => {
+      if (active) console.error(error);
+    });
+    return () => {
+      active = false;
+      observer.disconnect();
+    };
   }, []);
   return (
-    <>
-      {/* Next.js deduplicates this URL across units and client navigations. */}
-      <Script
-        async
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-      />
       <aside
         className={`ad-unit ad-unit--${variant}`}
         aria-label={label}
@@ -63,7 +86,7 @@ function AdUnit({
         <span className="ad-unit-label">{label}</span>
         <ins
           ref={ad}
-          className="adsbygoogle"
+          className="ad-unit-slot"
           style={{ display: "block" }}
           data-ad-client={ADSENSE_CLIENT}
           data-ad-slot={AD_SLOTS[variant]}
@@ -71,7 +94,6 @@ function AdUnit({
           data-full-width-responsive="true"
         />
       </aside>
-    </>
   );
 }
 
